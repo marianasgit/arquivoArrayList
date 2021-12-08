@@ -10,14 +10,16 @@ import java.io.PrintWriter;
 public class Arquivo {
 
 	// Cria e grava os dados no arquivo
-	public boolean escrever(String caminho, String conteudo) {
+	public boolean escrever(String caminho, String texto) {
 
 		try {
 
 			FileWriter arquivo = new FileWriter(caminho); // criar o arquivo
+			
 			PrintWriter gravarArquivo = new PrintWriter(arquivo); // permitir que o arquivo seja gravado
 
-			gravarArquivo.append(conteudo); // usado para inserir a informacao no final do arquivo
+			gravarArquivo.append(texto); // usado para inserir a informacao no final do arquivo
+			
 			gravarArquivo.close();
 
 			return true;
