@@ -1,7 +1,6 @@
 package br.senai.arquivo.arraylist;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +8,8 @@ import java.io.PrintWriter;
 
 public class Arquivo {
 
+	DadosContato objDadosContato = new DadosContato();
+	
 	// Cria e grava os dados no arquivo
 	public boolean escrever(String caminho, String texto) {
 
@@ -33,9 +34,7 @@ public class Arquivo {
 	}
 
 	// Le os dados do arquivo
-	public String ler(String caminho) {
-
-		String conteudo = "";
+	public DadosContato ler(String caminho) {
 
 		// recupera os dados do arquivo e armazena em memoria para a manipulacao
 
@@ -45,30 +44,37 @@ public class Arquivo {
 			BufferedReader conteudoArquivo = new BufferedReader(arquivo); // armazena o conteudo do arquivo em memoria
 
 			// Recupera os dados do arquivo
-			try {
+			
 				String linha = "";
+				
 				linha = conteudoArquivo.readLine();
+				
 				while (linha != null) {
-
-					conteudo += linha + "\n";
+					
+					Contato objContato = new Contato();
+					
+					String[] vetorLinha = linha.split(";");
+					
+					objContato.setNome(vetorLinha[0]);
+					objContato.setEmail(vetorLinha[1]);
+					objContato.setTelefone(vetorLinha[2]);
+					objContato.setCidade(vetorLinha[3]);
+					
+					objDadosContato.cadastrarContato(objContato);
+					
 					linha = conteudoArquivo.readLine();
 
 				}
 
 				conteudoArquivo.close();
-				return conteudo;
+				return objDadosContato;
 
 			} catch (IOException e) { // Trata o BufferedReader
 				System.out.println("ERRO: " + e.getMessage());
-				return "";
+				return null;
 			}
 
-		} catch (FileNotFoundException e) {
 
-			System.out.println("ERRO: " + e.getMessage());
-			return "";
-
-		}
 	}
 
 }

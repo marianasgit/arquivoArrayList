@@ -1,6 +1,5 @@
 package br.senai.arquivo.arraylist;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
@@ -67,7 +67,10 @@ public class TelaContato extends JFrame {
 		caminho = "C:\\Users\\21276380\\Desktop\\contato\\contatos.txt";
 		
 		//Exibe o total de contatos cadastrados
-		System.out.println("total de contatos: " + objDadosContato.contarContatos());
+		ArrayList<Contato> teste = new ArrayList<Contato>();
+		
+		teste = objDadosContato.listarContatos();
+		System.out.println("total de contatos: " + teste.size());
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 507, 374);
@@ -120,20 +123,24 @@ public class TelaContato extends JFrame {
 		JButton btnCadastrar = new JButton("CADASTRAR");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ArrayList<Contato> contatos = new ArrayList<Contato>();
+				objDadosContato = objArquivo.ler(caminho);
+				contatos = objDadosContato.listarContatos();
 				
 				objContato.setNome(txtNome.getText());
 				objContato.setEmail(txtEmail.getText());
 				objContato.setTelefone(txtTelefone.getText());
 				objContato.setCidade(txtCidade.getText());
 				
-				//tratando os dados para inserção no arquivo de texto
-				String texto = "";
+				objDadosContato.cadastrarContato(objContato);
 				
-				texto = objContato.getNome() + ";" + objContato.getEmail() + ";" + objContato.getTelefone() + ";" + objContato.getCidade();
+				//Teste de leitura de dados com objetos de contato
 				
-				//System.out.println(texto);
-				
-				objArquivo.escrever(caminho, texto);
+				contatos.forEach(contato -> {
+					
+					System.out.println("NOME: " + contato.getNome() + " E-MAIL: " + contato.getEmail() + " TELEFONE: " + contato.getTelefone() + " CIDADE: " + contato.getCidade());
+					
+				});
 				
 			}
 		});
